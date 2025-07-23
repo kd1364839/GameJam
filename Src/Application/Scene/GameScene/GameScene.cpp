@@ -7,6 +7,9 @@
 #include"../../GameObject/Piece/Bomb/Bomb.h"
 #include"../../GameObject/Piece/Haku/Haku.h"
 
+#include"../../GameObject/Piece/Rock/Rock.h"
+
+
 void GameScene::Event()
 {
 	//カメラ
@@ -15,14 +18,29 @@ void GameScene::Event()
 		DirectX::XMConvertToRadians(25));
 	Math::Matrix worldMat = rotMat * transMat;
 	m_camera->SetCameraMatrix(worldMat);
+
+	if (GetAsyncKeyState('Q') & 0x8000) {
+		if (!m_keyFlg) {
+			auto rock = std::make_shared<Rock>();
+			rock->Init();
+			rock->SetPos(Math::Vector3(0, 90, -70));
+			AddObject(rock);
+			m_pieceManager->AddPiece(rock);
+			m_keyFlg = true;
+		}
+	}
+	else {
+		m_keyFlg = false;
+	}
 }
 
 void GameScene::Init()
 {
 	//カメラ
-	m_camera = std::make_unique<KdCamera>();
+	m_camera = std::make_shared<KdCamera>();
 	m_cameraPos = { 0,100,-70 };
 
+	KdEffekseerManager::GetInstance().SetCamera(m_camera);
 	//机
 	std::shared_ptr<Desk>desk;
 	desk = std::make_shared<Desk>();

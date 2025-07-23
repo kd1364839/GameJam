@@ -4,6 +4,7 @@ enum PieceTypeNo {
 	NullType = -1,
 	BOMB,
 	HAKU,
+	ROCK,
 	PieceTypeNoMax
 };
 
