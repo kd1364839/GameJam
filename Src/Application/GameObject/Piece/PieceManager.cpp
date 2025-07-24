@@ -114,7 +114,11 @@ void PieceManager::Update()
 			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) {
 				_hitObj.lock()->SetHandPieceFlg(false);
 				_hitObj.lock()->SetPlayerHandFlg(false);
-				_hitObj.lock()->SetDestinationMountPos();
+
+				if (_hitObj.lock()->GetPieceType() == PieceTypeNo::STONE) {
+					_hitObj.lock()->SetEffectFlg(true);
+				}
+				else _hitObj.lock()->SetDestinationMountPos();
 
 				m_turnEndFlg = true;
 			}

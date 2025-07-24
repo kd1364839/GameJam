@@ -2,10 +2,10 @@
 
 #include"../BasePiece.h"
 
-class Rock : public BasePiece {
+class Stone : public BasePiece {
 public:
-	Rock() {}
-	~Rock()override {}
+	Stone() {}
+	~Stone()override {}
 
 	void Init()override;
 
@@ -18,7 +18,6 @@ private:
 
 	float m_rotateX = 0;
 	float m_rotateY = 0;
-	float m_rotateZ = 0;
 
 	Math::Vector3 m_spinSpeed = { 10.0f, 30.0f, 25.0f };
 };

@@ -28,8 +28,12 @@ public:
 	void SetDestinationPos(const Math::Vector3& pos){ m_destinationPos = pos; }
 	void SetDestinationMountPos() { m_destinationPos = PieceMountPos; }
 	void SetSelectFlg(bool flg) { m_selectFlg = flg; }
-
+	void SetEffectFlg(bool flg) { 
+		m_effectFlg = flg; 
+		m_effectInitFlg = true;
+	}
 	void SetHandPieceFlg(bool flg) { m_handPieceFlg = flg; }
+
 	void SetPlayerHandFlg(bool flg) { m_playerHandFlg = flg; }
 	bool GetHandPieceFlg() { return m_handPieceFlg; }
 	bool GetPlayerHandFlg() { return m_playerHandFlg; }
@@ -38,6 +42,9 @@ protected:
 	Math::Vector3 PieceMountPos = { 0,70,0 };
 
 	std::shared_ptr<KdModelData>m_spModel = nullptr;
+
+	bool m_effectFlg = false;
+	bool m_effectInitFlg = true;
 
 	int m_type = 0;
 
