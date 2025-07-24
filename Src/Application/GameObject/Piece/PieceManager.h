@@ -1,12 +1,5 @@
 ﻿#pragma once
 
-enum TurnNo {
-	WaitTurn,
-	PlayerTurn,
-	EnemyTurn,
-	TurnNoMax
-};
-
 class BasePiece;
 
 class PieceManager : public KdGameObject {
@@ -18,31 +11,17 @@ public:
 
 	void Update()override;
 
-	void AddPiece(std::weak_ptr<BasePiece>_piece) {
+	void AddPiece(std::weak_ptr<KdGameObject>_piece) {
 		m_piece.push_back(_piece);
 	}
 
-	std::vector<std::weak_ptr<BasePiece>> GetPiece() {
+	std::vector<std::weak_ptr<KdGameObject>> GetPiece() {
 		return m_piece;
 	}
-
-	void SetCamera(const std::shared_ptr<KdCamera>& _camera) {
-		m_wpCamera = _camera;
-	}
 private:
-	std::weak_ptr<KdCamera>m_wpCamera;
-
-	int m_turn = TurnNo::WaitTurn;
-	int m_nextTurn = TurnNo::WaitTurn;
-
-	bool m_turnInitFlg = true;
-	bool m_turnEndFlg = false;
+	static const int PieceNum = 4;//種類ごとの数
 
 	//牌を持っておく
-	std::vector<std::weak_ptr<BasePiece>>m_piece;
-
-	static const int HandPieceNum = 5;
-
-	int m_playerHandPiece[HandPieceNum + 1] = {};
-	int m_enemyHandPiece[HandPieceNum + 1] = {};
+	std::vector<std::weak_ptr<KdGameObject>>m_piece;
+	//std::shared_ptr<BasePiece>m_piece;
 };

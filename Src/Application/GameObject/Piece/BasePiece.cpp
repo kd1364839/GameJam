@@ -6,34 +6,12 @@ void BasePiece::Init()
 	m_spModel = std::make_shared<KdModelData>();
 
 	m_pos = PieceMountPos;
-
-	m_destinationPos = m_pos;
 }
 
 void BasePiece::Update()
 {
-	m_scale = 1.0f;
-	if (m_selectFlg)m_scale = 1.5f;
-
-	m_moveFlg = false;
-	if (m_pos != m_destinationPos) {
-		m_moveFlg = true;
-
-		Math::Vector3 moveDir = m_destinationPos - m_pos;
-
-		if (moveDir.Length() <= m_speed) {
-			m_pos = m_destinationPos;
-		}
-		else {
-			moveDir.Normalize();
-			moveDir *= m_speed;
-			m_pos += moveDir;
-		}
-	}
-
-	Math::Matrix scaleMat = Math::Matrix::CreateScale(m_scale);
 	Math::Matrix transMat = Math::Matrix::CreateTranslation(m_pos);
-	m_mWorld = scaleMat * transMat;
+	m_mWorld = transMat;
 }
 
 void BasePiece::DrawLit()

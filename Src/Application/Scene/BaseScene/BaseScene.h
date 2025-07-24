@@ -34,7 +34,7 @@ protected :
 	virtual void Event();
 	virtual void Init();
 
-	std::shared_ptr<KdCamera>	m_camera = nullptr;
+	std::unique_ptr<KdCamera>	m_camera = nullptr;
 	Math::Vector3				m_cameraPos;
 
 	// 全オブジェクトのアドレスをリストで管理

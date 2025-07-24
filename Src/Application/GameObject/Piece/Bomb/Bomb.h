@@ -8,6 +8,8 @@ public:
 	~Bomb()override{}
 
 	void Init()override;
+
+	void Update()override;
 private:
 
 };
