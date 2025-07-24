@@ -20,6 +20,8 @@ public:
 
 	void DrawSprite()override;
 
+	void DrawEffect()override;
+
 	void AddPiece(std::weak_ptr<BasePiece>_piece) {
 		m_piece.push_back(_piece);
 	}

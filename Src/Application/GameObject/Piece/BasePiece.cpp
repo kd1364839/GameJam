@@ -35,6 +35,8 @@ void BasePiece::Update()
 		}
 	}
 
+	KdDebugGUI::Instance().AddLog("%d\n", m_effectFlg);
+
 	int _rot = 0;
 	if (m_handPieceFlg && !m_playerHandFlg)_rot = 180;
 

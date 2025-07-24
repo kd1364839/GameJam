@@ -15,10 +15,15 @@ void PieceManager::Init()
 
 	m_winTex.Load("Asset/Textures/Win.png");
 	m_loseTex.Load("Asset/Textures/Lose.png");
+
+	KdEffekseerManager::GetInstance().Create(1280, 720);
+
 }
 
 void PieceManager::Update()
 {
+	KdEffekseerManager::GetInstance().Update();
+
 	for (auto _piece : m_piece) {
 		//動いていたら何もしない
 		if (_piece.lock()->GetMoveFlg())return;
@@ -347,7 +352,6 @@ void PieceManager::Update()
 			}
 		}
 		
-		BigExplosion();
 
 		/////////////////////////////////////////
 		//レイ判定終わり
@@ -614,7 +618,7 @@ void PieceManager::Update()
 			}
 		}
 
-		if (m_timer >= 60 * 5) { //１秒
+		if (m_timer >= 60 * 1) { //１秒
 			SceneManager::Instance().SetNextScene
 			(
 				SceneManager::SceneType::Title
@@ -627,7 +631,8 @@ void PieceManager::Update()
 	KdDebugGUI::Instance().AddLog("%d,", m_enemyCoin);
 	KdDebugGUI::Instance().AddLog("\n");*/
 
-	KdDebugGUI::Instance().AddLog("%d\n", m_nowWave);
+	// 	KdDebugGUI::Instance().AddLog("%d\n", m_nowWave);
+	KdDebugGUI::Instance().AddLog("%d\n", m_timer);
 
 	if (GetAsyncKeyState('K') & 0x8000) {
 		m_playerCoin = 2;
@@ -635,6 +640,7 @@ void PieceManager::Update()
 		m_nowWave = 3;
 	}
 
+	BigExplosion();
 }
 
 void PieceManager::DrawSprite()
@@ -649,6 +655,11 @@ void PieceManager::DrawSprite()
 		KdShaderManager::Instance().m_spriteShader.DrawBox(0, 130, 640, 170, &color);
 		KdShaderManager::Instance().m_spriteShader.DrawTex(&m_loseTex, 0, 100, rect.width, rect.height, &rect);
 	}
+}
+
+void PieceManager::DrawEffect()
+{
+	KdEffekseerManager::GetInstance().Draw();
 }
 
 void PieceManager::WaveInit()
@@ -754,7 +765,7 @@ void PieceManager::BigExplosion()
 			m_explosionSequence.shrink_to_fit();
 			Once = false;
 			m_nowWave = 3;
-			m_playerCoin = 300;
+			m_playerCoin = 20;
 		}
 	}
 }
