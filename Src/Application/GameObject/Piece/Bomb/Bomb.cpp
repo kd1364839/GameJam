@@ -8,10 +8,82 @@ void Bomb::Init()
 	m_spModel->Load("Asset/Models/Piece/Bomb/Bomb.gltf");
 
 	m_type = PieceTypeNo::BOMB;
+
+	KdEffekseerManager::GetInstance().Create(1280, 720);
 }
 
 void Bomb::Update()
 {
-
 	BasePiece::Update();
+
+	if (!m_isExpired) {
+		if (GetAsyncKeyState('P') & 0x8000) {
+			if (!m_keyFlg) {
+				KdEffekseerManager::GetInstance().Play(
+					"Explosion.efkefc",
+					m_pos,
+					1.0f,
+					1.0f,
+					false);
+				m_keyFlg = true;
+				m_deskExplosionActive = true;
+			}
+		}
+		else {
+			m_keyFlg = false;
+		}
+
+		//const int ExplosionTriggerFrame = 60;
+		const int endFrame = 150;
+
+		if (m_deskExplosionActive)
+		{
+			m_deskExplosionTimer++;
+			bool Once = false;
+			if (!Once) {
+				m_explosionSequence = {
+		{ KdRandom::GetInt(60,120), {KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-60,0)}},
+		{ KdRandom::GetInt(60,120), {KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-60,0)} },
+		{ KdRandom::GetInt(60,120), { KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-60,0)} },
+		{ KdRandom::GetInt(60,120), {   KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-60,0)} },
+		{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-60,0)} },
+		{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-60,0)} },
+		{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-60,0)} },
+		{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-60,0)} },
+		{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-60,0)} },
+		{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-60,0)} },
+		{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-60,0)} },
+				};
+				Once = true;
+			}
+
+			for (const auto& explosion : m_explosionSequence)
+			{
+				if (m_deskExplosionTimer == explosion.frame)
+				{
+					KdEffekseerManager::GetInstance().Play(
+						"Explosion.efkefc",
+						explosion.pos,
+						3.0f,
+						0.1f,
+						false
+					);
+				}
+			}
+
+			if (m_deskExplosionTimer >= endFrame)
+			{
+				m_deskExplosionActive = false;
+				m_deskExplosionTimer = 0;
+			}
+		}
+	}
+	
+
+	KdEffekseerManager::GetInstance().Update();
+}
+
+void Bomb::DrawEffect()
+{
+	KdEffekseerManager::GetInstance().Draw();
 }

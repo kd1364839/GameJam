@@ -15,6 +15,12 @@ public:
 private:
 	float m_speed = 0;
 	Math::Vector3 m_velocity;  // Velocity vector
-	float m_gravity = -0.01f;  // Gravity power (adjust as needed)
+	float m_gravity = 0;
+
+	float m_rotateX = 0;
+	float m_rotateY = 0;
+	float m_rotateZ = 0;
+
+	Math::Vector3 m_spinSpeed = { 10.0f, 30.0f, 25.0f };
 
 };

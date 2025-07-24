@@ -97,6 +97,9 @@
     <Filter Include="Src\Application\GameObject\Piece\Haku">
       <UniqueIdentifier>{bcaa7cff-c14f-4ab2-9962-6ee0d06bbbe7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\GameObject\Piece\Rock">
+      <UniqueIdentifier>{86af4643-32de-48a4-a1ee-d49b8c6624eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -294,6 +297,9 @@
     <ClInclude Include="Src\Application\GameObject\Piece\Haku\Haku.h">
       <Filter>Src\Application\GameObject\Piece\Haku</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Piece\Rock\Rock.h">
+      <Filter>Src\Application\GameObject\Piece\Rock</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -460,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Piece\Haku\Haku.cpp">
       <Filter>Src\Application\GameObject\Piece\Haku</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Piece\Rock\Rock.cpp">
+      <Filter>Src\Application\GameObject\Piece\Rock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

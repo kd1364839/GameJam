@@ -23,7 +23,7 @@ void GameScene::Event()
 		if (!m_keyFlg) {
 			auto rock = std::make_shared<Rock>();
 			rock->Init();
-			rock->SetPos(Math::Vector3(0, 90, -70));
+			rock->SetPos(Math::Vector3(0, 95, -80));
 			AddObject(rock);
 			m_pieceManager->AddPiece(rock);
 			m_keyFlg = true;
