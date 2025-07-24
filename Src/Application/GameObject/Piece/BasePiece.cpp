@@ -23,6 +23,10 @@ void BasePiece::Update()
 
 		if (moveDir.Length() <= m_speed) {
 			m_pos = m_destinationPos;
+			if (m_pos.y <= PieceMountPos.y)//戻った先が山かどうか
+			{
+				KdAudioManager::Instance().Play("Asset/Data/Sound/MahjongMoundHit.wav", false);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			}
 		}
 		else {
 			moveDir.Normalize();

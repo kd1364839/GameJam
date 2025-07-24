@@ -14,16 +14,4 @@ public:
 	void DrawEffect()override;
 private:
 	bool m_keyFlg = false;
-
-	bool m_deskExplosionActive = false; //大爆発用フラグ
-	int m_deskExplosionTimer = 0;
-
-	bool Once = false;
-
-	struct ExplosionInfo {
-		int frame;
-		Math::Vector3 pos;
-	};
-
-	std::vector<ExplosionInfo> m_explosionSequence;
 };

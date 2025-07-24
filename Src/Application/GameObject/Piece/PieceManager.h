@@ -18,6 +18,8 @@ public:
 
 	void Update()override;
 
+	void DrawSprite()override;
+
 	void AddPiece(std::weak_ptr<BasePiece>_piece) {
 		m_piece.push_back(_piece);
 	}
@@ -55,4 +57,36 @@ private:
 
 	int m_playerHandPiece[HandPieceNum] = {};
 	int m_enemyHandPiece[HandPieceNum] = {};
+
+	int m_playerCoin = 0;
+	int m_enemyCoin = 0;
+
+	bool m_winCheck = false;
+	//bool m_loseCheck = false;必要なかったぽい
+
+	int m_timer = 0;
+
+	bool m_playerWin = false;
+	bool m_playerLose = false;
+
+	KdTexture m_winTex;
+	KdTexture m_loseTex;
+
+
+	//大爆発
+	bool m_deskExplosionActive = false; //大爆発用フラグ
+	int m_deskExplosionTimer = 0;
+
+	bool Once = false;
+
+	struct ExplosionInfo {
+		int frame;
+		Math::Vector3 pos;
+	};
+
+	std::vector<ExplosionInfo> m_explosionSequence;
+
+	void BigExplosion();
+
+	bool m_trigger = false;
 };

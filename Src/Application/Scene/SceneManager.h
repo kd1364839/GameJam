@@ -40,6 +40,10 @@ private :
 	// インスタンス生成(アプリ起動)時にコンストラクタで自動実行
 	void Init()
 	{
+		std::shared_ptr<KdSoundInstance>_bgm = KdAudioManager::Instance().Play("Asset/Data/Sound/BGM.wav", true);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+		_bgm->SetVolume(0.1f);
+
 		// 開始シーンに切り替え
 		ChangeScene(m_currentSceneType);
 	}

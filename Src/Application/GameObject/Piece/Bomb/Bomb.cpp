@@ -24,64 +24,21 @@ void Bomb::Update()
 {
 	KdEffekseerManager::GetInstance().Update();
 
-	if (GetAsyncKeyState('P') & 0x8000) {
-		if (!m_keyFlg) {
+	if (m_effectFlg) {
+		
 			KdEffekseerManager::GetInstance().Play(
 				"Explosion.efkefc",
 				m_pos,
 				1.0f,
 				0.3f,
 				false);
-			m_keyFlg = true;
-		}
+			m_effectFlg = false;
+
+			KdAudioManager::Instance().Play("Asset/Data/Sound/Explosion.wav", false);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 	}
-	else {
-		m_keyFlg = false;
-	}
 
-	const int endFrame = 150;
-
-	if (m_deskExplosionActive)
-	{
-		m_deskExplosionTimer++;
-		if (!Once && m_explosionSequence.empty()) {
-			m_explosionSequence = {
-				{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-80,0)}},
-				{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-80,0)} },
-				{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-80,0)} },
-				{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-80,0)} },
-				{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-80,0)} },
-				{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-80,0)} },
-				{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-80,0)} },
-				{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-80,0)} },
-				{ KdRandom::GetInt(60,120), {  KdRandom::GetFloat(-30,30), 90,  KdRandom::GetFloat(-80,0)} },
-			};
-			Once = true;
-		}
-
-		for (const auto& explosion : m_explosionSequence)
-		{
-			if (m_deskExplosionTimer == explosion.frame)
-			{
-				KdEffekseerManager::GetInstance().Play(
-					"Explosion.efkefc",
-					explosion.pos,
-					3.0f,
-					0.1f,
-					false
-				);
-			}
-		}
-
-		if (m_deskExplosionTimer >= endFrame)
-		{
-			m_deskExplosionActive = false;
-			m_deskExplosionTimer = 0;
-			m_explosionSequence.clear();
-			m_explosionSequence.shrink_to_fit();
-			Once = false;
-		}
-	}
+	
 
 	BasePiece::Update();
 }

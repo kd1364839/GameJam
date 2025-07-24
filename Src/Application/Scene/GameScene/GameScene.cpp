@@ -111,7 +111,7 @@ void GameScene::Init()
 	}
 
 	std::shared_ptr<Hatu>hatu;
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 20; i++) {
 		hatu = std::make_shared<Hatu>();
 		hatu->Init();
 		AddObject(hatu);
@@ -127,7 +127,7 @@ void GameScene::Init()
 	}
 
 	std::shared_ptr<Bomb>bomb;
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 20; i++) {
 		bomb = std::make_shared<Bomb>();
 		bomb->Init();
 		AddObject(bomb);
