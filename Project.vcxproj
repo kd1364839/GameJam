@@ -281,6 +281,9 @@
     <ClInclude Include="Src\Application\GameObject\Piece\Bomb\Bomb.h" />
     <ClInclude Include="Src\Application\GameObject\Piece\Haku\Haku.h" />
     <ClInclude Include="Src\Application\GameObject\Piece\PieceManager.h" />
+    <ClInclude Include="Src\Application\GameObject\Piece\Son\Son.h" />
+    <ClInclude Include="Src\Application\GameObject\Piece\Stone\Stone.h" />
+    <ClInclude Include="Src\Application\GameObject\Piece\Win\Win.h" />
     <ClInclude Include="Src\Application\main.h" />
     <ClInclude Include="Src\Application\Scene\BaseScene\BaseScene.h" />
     <ClInclude Include="Src\Application\Scene\GameScene\GameScene.h" />
@@ -341,6 +344,9 @@
     <ClCompile Include="Src\Application\GameObject\Piece\Bomb\Bomb.cpp" />
     <ClCompile Include="Src\Application\GameObject\Piece\Haku\Haku.cpp" />
     <ClCompile Include="Src\Application\GameObject\Piece\PieceManager.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Piece\Son\Son.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Piece\Stone\Stone.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Piece\Win\Win.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
     <ClCompile Include="Src\Application\Scene\BaseScene\BaseScene.cpp" />
     <ClCompile Include="Src\Application\Scene\GameScene\GameScene.cpp" />

@@ -8,10 +8,10 @@ void Haku::Init()
 	m_spModel->Load("Asset/Models/Piece/Haku/Haku.gltf");
 
 	m_type = PieceTypeNo::HAKU;
-}
 
-void Haku::Update()
-{
-
-	BasePiece::Update();
+	m_pCollider = std::make_unique<KdCollider>();//生成
+	m_pCollider->RegisterCollisionShape(//判定情報を登録
+		"Haku",				//登録名
+		m_spModel,			//モデルデータ(拡大も加味される)
+		KdCollider::TypeGround);//判定種類
 }

@@ -2,10 +2,10 @@
 
 #include"../BasePiece.h"
 
-class Haku : public BasePiece {
+class Stone : public BasePiece {
 public:
-	Haku(){}
-	~Haku()override{}
+	Stone(){}
+	~Stone()override{}
 
 	void Init()override;
 private:
