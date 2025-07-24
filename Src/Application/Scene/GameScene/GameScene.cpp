@@ -13,8 +13,7 @@
 void GameScene::Event()
 {
 	//カメラ
-
-	Math::Vector3 pPos = { 0,100,-70 };
+	Math::Vector3 pPos = { 0,110,-90 };
 	Math::Vector3 move;
 	Math::Vector3 moveDir;
 	moveDir.x = pPos.x - m_cameraPos.x;
@@ -29,10 +28,7 @@ void GameScene::Event()
 
 	float dist = sqrt(move.y * move.y + move.x * move.x + move.z * move.z);
 
-	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
-	{
-		m_cameraPos += moveDir * dist * m_camSpeed;
-	}
+	m_cameraPos += moveDir * dist * m_camSpeed;
 
 	Math::Matrix transMat = Math::Matrix::CreateTranslation(m_cameraPos);
 	Math::Matrix rotMat = Math::Matrix::CreateRotationX(
@@ -43,19 +39,21 @@ void GameScene::Event()
 	m_camera->SetCameraMatrix(worldMat);
 
 
-	//KdShaderManager::Instance().WorkAmbientController().
-	//	AddPointLight(
-	//		Math::Vector3(10, 10, 10),
-	//		10,
-	//		m_cameraPos //+ Math::Vector3(0, -1.0f, 0)
-	//	);
+	KdShaderManager::Instance().WorkAmbientController().
+		AddPointLight(
+			Math::Vector3(10, 10, 10),
+			50,
+			m_cameraPos + Math::Vector3(0, -20, 0)
+		);
 }
 
 void GameScene::Init()
 {
 	//カメラ
 	m_camera = std::make_shared<KdCamera>();
-	m_cameraPos = { 0,110,-90 };
+	m_cameraPos = { -100,200,-270 };
+
+	KdEffekseerManager::GetInstance().SetCamera(m_camera);
 
 	//机
 	std::shared_ptr<Desk>desk;

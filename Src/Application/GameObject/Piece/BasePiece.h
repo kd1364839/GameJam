@@ -2,12 +2,12 @@
 
 enum PieceTypeNo {
 	NullType = -1,
-	BOMB,
 	HAKU,
+	BOMB,
 	SON,
 	STONE,
 	WIN,
-	PieceTypeNoMax
+	PieceTypeNoNum
 };
 
 class BasePiece :public KdGameObject {
