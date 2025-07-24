@@ -4,8 +4,14 @@
 #include"../../GameObject/Desk/Desk.h"
 
 #include"../../GameObject/Piece/PieceManager.h"
-#include"../../GameObject/Piece/Bomb/Bomb.h"
+#include"../../GameObject/Piece/East/East.h"
+#include"../../GameObject/Piece/West/West.h"
+#include"../../GameObject/Piece/South/South.h"
+#include"../../GameObject/Piece/North/North.h"
 #include"../../GameObject/Piece/Haku/Haku.h"
+#include"../../GameObject/Piece/Hatu/Hatu.h"
+#include"../../GameObject/Piece/Tyun/Tyun.h"
+#include"../../GameObject/Piece/Bomb/Bomb.h"
 #include"../../GameObject/Piece/Son/Son.h"
 #include"../../GameObject/Piece/Stone/Stone.h"
 #include"../../GameObject/Piece/Win/Win.h"
@@ -64,12 +70,36 @@ void GameScene::Init()
 	//牌マネージャー
 	m_pieceManager = std::make_shared<PieceManager>();
 
-	std::shared_ptr<Bomb>bomb;
+	std::shared_ptr<East>east;
 	for (int i = 0; i < 3; i++) {
-		bomb = std::make_shared<Bomb>();
-		bomb->Init();
-		AddObject(bomb);
-		m_pieceManager->AddPiece(bomb);
+		east = std::make_shared<East>();
+		east->Init();
+		AddObject(east);
+		m_pieceManager->AddPiece(east);
+	}
+
+	std::shared_ptr<West>west;
+	for (int i = 0; i < 3; i++) {
+		west = std::make_shared<West>();
+		west->Init();
+		AddObject(west);
+		m_pieceManager->AddPiece(west);
+	}
+
+	std::shared_ptr<South>south;
+	for (int i = 0; i < 3; i++) {
+		south = std::make_shared<South>();
+		south->Init();
+		AddObject(south);
+		m_pieceManager->AddPiece(south);
+	}
+
+	std::shared_ptr<North>north;
+	for (int i = 0; i < 3; i++) {
+		north = std::make_shared<North>();
+		north->Init();
+		AddObject(north);
+		m_pieceManager->AddPiece(north);
 	}
 
 	std::shared_ptr<Haku>haku;
@@ -78,6 +108,30 @@ void GameScene::Init()
 		haku->Init();
 		AddObject(haku);
 		m_pieceManager->AddPiece(haku);
+	}
+
+	std::shared_ptr<Hatu>hatu;
+	for (int i = 0; i < 3; i++) {
+		hatu = std::make_shared<Hatu>();
+		hatu->Init();
+		AddObject(hatu);
+		m_pieceManager->AddPiece(hatu);
+	}
+
+	std::shared_ptr<Tyun>tyun;
+	for (int i = 0; i < 3; i++) {
+		tyun = std::make_shared<Tyun>();
+		tyun->Init();
+		AddObject(tyun);
+		m_pieceManager->AddPiece(tyun);
+	}
+
+	std::shared_ptr<Bomb>bomb;
+	for (int i = 0; i < 3; i++) {
+		bomb = std::make_shared<Bomb>();
+		bomb->Init();
+		AddObject(bomb);
+		m_pieceManager->AddPiece(bomb);
 	}
 
 	std::shared_ptr<Son>son;

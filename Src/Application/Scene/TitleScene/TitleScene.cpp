@@ -4,7 +4,7 @@
 
 void TitleScene::Event()
 {
-	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
 		SceneManager::Instance().SetNextScene
 		(

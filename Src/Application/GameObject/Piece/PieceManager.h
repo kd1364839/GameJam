@@ -30,7 +30,13 @@ public:
 		m_wpCamera = _camera;
 	}
 private:
+	void WaveInit();
+	void HandPieceReset();
+
 	std::weak_ptr<KdCamera>m_wpCamera;
+
+	int m_nowWave = 0;
+	bool m_waveInitFlg = true;
 
 	int m_turn = TurnNo::WaitTurn;
 	int m_nextTurn = TurnNo::WaitTurn;
@@ -39,6 +45,8 @@ private:
 	bool m_turnEndFlg = false;
 
 	bool m_winFlg = false;
+	int m_winWaitFram = 0;
+	bool m_loseFlg = false;
 
 	//牌を持っておく
 	std::vector<std::weak_ptr<BasePiece>>m_piece;

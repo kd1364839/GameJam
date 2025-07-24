@@ -2,7 +2,13 @@
 
 enum PieceTypeNo {
 	NullType = -1,
+	EAST,
+	SOUTH,
+	WEST,
+	NORTH,
 	HAKU,
+	HATU,
+	TYUN,
 	BOMB,
 	SON,
 	STONE,
@@ -33,11 +39,13 @@ public:
 		m_effectInitFlg = true;
 	}
 	void SetHandPieceFlg(bool flg) { m_handPieceFlg = flg; }
-
 	void SetPlayerHandFlg(bool flg) { m_playerHandFlg = flg; }
+
+	Math::Vector3 GetPos() { return m_pos; }
 	bool GetHandPieceFlg() { return m_handPieceFlg; }
 	bool GetPlayerHandFlg() { return m_playerHandFlg; }
 	bool GetMoveFlg() { return m_moveFlg; }
+	Math::Vector3 GetPieceMountPos() { return PieceMountPos; }
 protected:
 	Math::Vector3 PieceMountPos = { 0,70,0 };
 

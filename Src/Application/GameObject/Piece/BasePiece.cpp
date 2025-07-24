@@ -31,9 +31,13 @@ void BasePiece::Update()
 		}
 	}
 
+	int _rot = 0;
+	if (m_handPieceFlg && !m_playerHandFlg)_rot = 180;
+
 	Math::Matrix scaleMat = Math::Matrix::CreateScale(m_scale);
+	Math::Matrix rotMat = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(_rot));
 	Math::Matrix transMat = Math::Matrix::CreateTranslation(m_pos);
-	m_mWorld = scaleMat * transMat;
+	m_mWorld = scaleMat * rotMat * transMat;
 }
 
 void BasePiece::DrawLit()
