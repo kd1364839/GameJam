@@ -9,7 +9,7 @@ void PieceManager::Init()
 {
 	//手牌を決める
 	std::shared_ptr<BasePiece>piece;
-	for (int i = 0; i < HandPieceNum; i++) {
+	for (int i = 0; i < HandPieceNum - 1; i++) {
 		//プレイヤー
 		m_playerHandPiece[i] = KdRandom::GetInt(0, m_piece.size() - 1);
 		while (m_piece[m_playerHandPiece[i]].lock()->GetHandPieceFlg()) {
@@ -18,7 +18,7 @@ void PieceManager::Init()
 		piece = m_piece[m_playerHandPiece[i]].lock();
 		piece->SetHandPieceFlg(true);
 		piece->SetPlayerHandFlg(true);
-		piece->SetDestinationPos(Math::Vector3(-10 + (i * 5), 90, -70));
+		piece->SetDestinationPos(Math::Vector3(-7.5f + (i * 5), 90, -70));
 
 		//敵
 		m_enemyHandPiece[i] = KdRandom::GetInt(0, m_piece.size() - 1);
@@ -27,7 +27,7 @@ void PieceManager::Init()
 		}
 		piece = m_piece[m_enemyHandPiece[i]].lock();
 		piece->SetHandPieceFlg(true);
-		piece->SetDestinationPos(Math::Vector3(-20 + (i * 10), 90, 70));
+		piece->SetDestinationPos(Math::Vector3(-15 + (i * 10), 90, 70));
 	}
 
 	m_turn = TurnNo::WaitTurn;
@@ -39,16 +39,32 @@ void PieceManager::Update()
 	std::shared_ptr<BasePiece>piece;
 	if (m_turn == TurnNo::PlayerTurn) {
 		if (m_turnInitFlg) {
-			m_playerHandPiece[5] = KdRandom::GetInt(0, m_piece.size() - 1);
-			while (m_piece[m_playerHandPiece[5]].lock()->GetHandPieceFlg()) {
-				m_playerHandPiece[5] = KdRandom::GetInt(0, m_piece.size() - 1);
+			m_playerHandPiece[4] = KdRandom::GetInt(0, m_piece.size() - 1);
+			while (m_piece[m_playerHandPiece[4]].lock()->GetHandPieceFlg()) {
+				m_playerHandPiece[4] = KdRandom::GetInt(0, m_piece.size() - 1);
 			}
-			piece = m_piece[m_playerHandPiece[5]].lock();
+			piece = m_piece[m_playerHandPiece[4]].lock();
 			piece->SetHandPieceFlg(true);
 			piece->SetPlayerHandFlg(true);
 			piece->SetDestinationPos(Math::Vector3(0, 95, -70));
 			m_turnInitFlg = false;
+
+			//役の判定
+			int handPieceTypeNum[PieceTypeNo::PieceTypeNoNum] = {};
+			for (int i = 0; i < HandPieceNum; i++) {
+				handPieceTypeNum[m_piece[m_playerHandPiece[i]].lock()->GetPieceType()]++;
+			}
+
+			m_winFlg = false;
+			if (handPieceTypeNum[PieceTypeNo::HAKU] >= 1)m_winFlg = true;
 		}
+
+		//for (auto _piece : m_piece) {
+		//	//動いていたら何もしない
+		//	if (_piece.lock()->GetMoveFlg())return;
+		//}
+
+
 
 		//カメラ取得
 		if (m_wpCamera.expired())return;
@@ -85,7 +101,7 @@ void PieceManager::Update()
 
 		std::list<KdCollider::CollisionResult> retRayList;
 		//for (std::weak_ptr<BasePiece> wpGameObj : m_piece)
-		for (int i = 0; i < HandPieceNum + 1; i++)
+		for (int i = 0; i < HandPieceNum; i++)
 		{
 			std::weak_ptr<BasePiece> wpGameObj = m_piece[m_playerHandPiece[i]];
 			if (wpGameObj.expired())continue;
@@ -129,20 +145,20 @@ void PieceManager::Update()
 		/////////////////////////////////////////
 
 		if (m_turnEndFlg) {
-			if (m_piece[m_playerHandPiece[5]]
+			if (m_piece[m_playerHandPiece[4]]
 				.lock()->GetPlayerHandFlg()) {
-				for (int i = 0; i < HandPieceNum; i++) {
+				for (int i = 0; i < HandPieceNum - 1; i++) {
 					if (!m_piece[m_playerHandPiece[i]]
 						.lock()->GetHandPieceFlg()) {
-						m_playerHandPiece[i] = m_playerHandPiece[5];
+						m_playerHandPiece[i] = m_playerHandPiece[4];
 						break;
 					}
 				}
 			}
 
-			for (int i = 0; i < HandPieceNum; i++) {
+			for (int i = 0; i < HandPieceNum - 1; i++) {
 				piece = m_piece[m_playerHandPiece[i]].lock();
-				piece->SetDestinationPos(Math::Vector3(-10 + (i * 5), 90, -70));
+				piece->SetDestinationPos(Math::Vector3(-7.5f + (i * 5), 90, -70));
 			}
 
 			m_turn = TurnNo::WaitTurn;
@@ -184,5 +200,5 @@ void PieceManager::Update()
 		m_turn = m_nextTurn;
 	}
 
-	KdDebugGUI::Instance().AddLog("%d\n", m_turn);
+	KdDebugGUI::Instance().AddLog("%d,%d\n", m_turn,m_winFlg);
 }

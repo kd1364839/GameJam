@@ -38,11 +38,13 @@ private:
 	bool m_turnInitFlg = true;
 	bool m_turnEndFlg = false;
 
+	bool m_winFlg = false;
+
 	//牌を持っておく
 	std::vector<std::weak_ptr<BasePiece>>m_piece;
 
 	static const int HandPieceNum = 5;
 
-	int m_playerHandPiece[HandPieceNum + 1] = {};
-	int m_enemyHandPiece[HandPieceNum + 1] = {};
+	int m_playerHandPiece[HandPieceNum] = {};
+	int m_enemyHandPiece[HandPieceNum] = {};
 };
