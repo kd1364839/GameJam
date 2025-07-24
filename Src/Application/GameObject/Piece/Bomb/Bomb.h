@@ -14,9 +14,11 @@ public:
 	void DrawEffect()override;
 private:
 	bool m_keyFlg = false;
-	bool m_keyFlg1 = false;
-	bool m_deskExplosionActive = false;
+
+	bool m_deskExplosionActive = false; //大爆発用フラグ
 	int m_deskExplosionTimer = 0;
+
+	bool Once = false;
 
 	struct ExplosionInfo {
 		int frame;
