@@ -17,7 +17,4 @@ private:
 	void Init()  override;
 
 	std::shared_ptr<PieceManager>m_pieceManager;
-
-	bool m_keyFlg = false;
-
 };

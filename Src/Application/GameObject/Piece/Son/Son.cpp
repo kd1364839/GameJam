@@ -1,17 +1,17 @@
-﻿#include "Bomb.h"
+﻿#include "Son.h"
 #include"../BasePiece.h"
 
-void Bomb::Init()
+void Son::Init()
 {
 	BasePiece::Init();
 
-	m_spModel->Load("Asset/Models/Piece/Bomb/Bomb.gltf");
+	m_spModel->Load("Asset/Models/Piece/Son/Son.gltf");
 
-	m_type = PieceTypeNo::BOMB;
+	m_type = PieceTypeNo::SON;
 
 	m_pCollider = std::make_unique<KdCollider>();//生成
 	m_pCollider->RegisterCollisionShape(//判定情報を登録
-		"Bomb",				//登録名
+		"Son",				//登録名
 		m_spModel,			//モデルデータ(拡大も加味される)
 		KdCollider::TypeGround);//判定種類
 }

@@ -42,6 +42,12 @@
 			"doubleSided":true,
 			"name":"\u30de\u30c6\u30ea\u30a2\u30eb",
 			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.800000011920929,
+					0.800000011920929,
+					0.800000011920929,
+					1
+				],
 				"metallicFactor":0,
 				"roughnessFactor":0.5
 			}
@@ -101,8 +107,8 @@
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"bomb.png",
-			"uri":"bomb_png.png"
+			"name":"son",
+			"uri":"son.png"
 		}
 	],
 	"accessors":[
@@ -292,7 +298,7 @@
 	"buffers":[
 		{
 			"byteLength":5064,
-			"uri":"bomb.bin"
+			"uri":"Son.bin"
 		}
 	]
 }
