@@ -52,6 +52,17 @@ private:
 	int m_winWaitFram = 0;
 	bool m_loseFlg = false;
 
+	Math::Vector3 m_fireEffectPos;
+	Math::Vector3 m_winEffectPos;
+	Math::Vector3 m_loseEffectPos;
+
+	bool m_winEffectFlg = false;
+	bool m_loseEffectFlg = false;
+
+	float m_winEffectFrame = 0;
+	float m_loseEffectFrame = 0;
+
+
 	//牌を持っておく
 	std::vector<std::weak_ptr<BasePiece>>m_piece;
 

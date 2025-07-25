@@ -10,6 +10,10 @@ void PieceManager::Init()
 	m_nowWave = 0;
 	m_waveInitFlg = true;
 
+	m_fireEffectPos = { 0,70,-30 };
+	m_winEffectPos = { 0,70,-50 };
+	m_loseEffectPos = { 0,70,50 };
+
 	m_playerCoin = 0;
 	m_enemyCoin = 0;
 
@@ -92,6 +96,7 @@ void PieceManager::Update()
 					for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
 						if (handPieceTypeNum[i] == 2) {
 							m_winFlg = true;
+							m_winEffectFlg = true;
 							m_playerCoin += 1;
 							break;
 						}
@@ -105,6 +110,7 @@ void PieceManager::Update()
 					for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
 						if (handPieceTypeNum[i] == 2) {
 							m_winFlg = true;
+							m_winEffectFlg = true;
 							m_playerCoin += 2;
 							break;
 						}
@@ -124,6 +130,7 @@ void PieceManager::Update()
 					}
 					if (_flg) {
 						m_winFlg = true;
+						m_winEffectFlg = true;
 						m_playerCoin += 3;
 					}
 				}
@@ -133,6 +140,7 @@ void PieceManager::Update()
 					for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
 						if (handPieceTypeNum[i] == 2) {
 							m_winFlg = true;
+							m_winEffectFlg = true;
 							m_playerCoin += 2;
 							break;
 						}
@@ -144,6 +152,7 @@ void PieceManager::Update()
 					for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
 						if (handPieceTypeNum[i] == 2) {
 							m_winFlg = true;
+							m_winEffectFlg = true;
 							m_playerCoin += 1;
 							m_enemyCoin -= 1;
 							break;
@@ -157,6 +166,7 @@ void PieceManager::Update()
 					handPieceTypeNum[PieceTypeNo::SOUTH] >= 1 &&
 					handPieceTypeNum[PieceTypeNo::NORTH] >= 1) {
 					m_winFlg = true;
+					m_winEffectFlg = true;
 					m_playerCoin += 5;
 				}
 
@@ -165,6 +175,7 @@ void PieceManager::Update()
 					//勝勝
 					if (handPieceTypeNum[PieceTypeNo::WIN] == 2) {
 						m_winFlg = true;
+						m_winEffectFlg = true;
 						m_playerCoin += 100; //シーン移動？
 						m_nowWave = 3;
 					}
@@ -179,7 +190,7 @@ void PieceManager::Update()
 						for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
 							if (handPieceTypeNum[i] == 2) {
 								m_winFlg = true;
-								
+								m_winEffectFlg = true;
 								m_playerCoin += 2;
 								break;
 							}
@@ -238,6 +249,35 @@ void PieceManager::Update()
 				}
 				if (changeNo >= HandPieceNum) {
 					break;
+				}
+			}
+
+			if (m_winEffectFlg)
+			{
+				m_winEffectFrame++;
+
+				if (m_winEffectFrame < 5)
+				{
+					KdEffekseerManager::GetInstance().Play(
+						"Spark.efkefc",
+						m_winEffectPos,
+						5.0f,
+						0.3f,
+						false);
+				}
+				if (m_winEffectFrame > 15)
+				{
+					KdEffekseerManager::GetInstance().Play(
+						"Gold.efkefc",
+						m_loseEffectPos,
+						3.0f,
+						0.3f,
+						false);
+				}
+				if (m_winEffectFrame > 25)
+				{
+					m_winEffectFlg = false;
+					m_winEffectFrame = 0;
 				}
 			}
 
@@ -406,7 +446,7 @@ void PieceManager::Update()
 		}
 	}
 	else if(m_turn == TurnNo::EnemyTurn){
-		/*if (m_turnInitFlg) {
+		if (m_turnInitFlg) {
 			m_enemyHandPiece[4] = KdRandom::GetInt(0, m_piece.size() - 1);
 			while (m_piece[m_enemyHandPiece[4]].lock()->GetHandPieceFlg()) {
 				m_enemyHandPiece[4] = KdRandom::GetInt(0, m_piece.size() - 1);
@@ -418,167 +458,204 @@ void PieceManager::Update()
 			m_turnInitFlg = false;
 
 			return;
-		}*/
+		}
 
 
-		//int handPieceTypeNum[PieceTypeNo::PieceTypeNoNum] = {};
-		//for (int i = 0; i < HandPieceNum; i++) {
-		//	handPieceTypeNum[m_piece[m_enemyHandPiece[i]].lock()->GetPieceType()]++;
-		//}
-		////役判定
-		//m_loseFlg = false;
-		//{
-		//	//風牌 or 爆 or 石 *3
-		//	if (handPieceTypeNum[PieceTypeNo::EAST] == 3 ||
-		//		handPieceTypeNum[PieceTypeNo::WEST] == 3 ||
-		//		handPieceTypeNum[PieceTypeNo::SOUTH] == 3 ||
-		//		handPieceTypeNum[PieceTypeNo::NORTH] == 3 ||
-		//		handPieceTypeNum[PieceTypeNo::STONE] == 3) {
-		//		for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
-		//			if (handPieceTypeNum[i] == 2) {
-		//				m_loseFlg = true;
-		//				m_enemyCoin += 1;
-		//				break;
-		//			}
-		//		}
-		//	}
+		int handPieceTypeNum[PieceTypeNo::PieceTypeNoNum] = {};
+		for (int i = 0; i < HandPieceNum; i++) {
+			handPieceTypeNum[m_piece[m_enemyHandPiece[i]].lock()->GetPieceType()]++;
+		}
+		//役判定
+		m_loseFlg = false;
+		{
+			//風牌 or 爆 or 石 *3
+			if (handPieceTypeNum[PieceTypeNo::EAST] == 3 ||
+				handPieceTypeNum[PieceTypeNo::WEST] == 3 ||
+				handPieceTypeNum[PieceTypeNo::SOUTH] == 3 ||
+				handPieceTypeNum[PieceTypeNo::NORTH] == 3 ||
+				handPieceTypeNum[PieceTypeNo::STONE] == 3) {
+				for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
+					if (handPieceTypeNum[i] == 2) {
+						m_loseFlg = true;
+						m_loseEffectFlg = true;
+						m_enemyCoin += 1;
+						break;
+					}
+				}
+			}
 
-		//	//三元牌 * 3
-		//	if (handPieceTypeNum[PieceTypeNo::HAKU] == 3 ||
-		//		handPieceTypeNum[PieceTypeNo::HATU] == 3 ||
-		//		handPieceTypeNum[PieceTypeNo::TYUN] == 3) {
-		//		for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
-		//			if (handPieceTypeNum[i] == 2) {
-		//				m_loseFlg = true;
-		//				m_enemyCoin += 2;
-		//				break;
-		//			}
-		//		}
-		//	}
+			//三元牌 * 3
+			if (handPieceTypeNum[PieceTypeNo::HAKU] == 3 ||
+				handPieceTypeNum[PieceTypeNo::HATU] == 3 ||
+				handPieceTypeNum[PieceTypeNo::TYUN] == 3) {
+				for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
+					if (handPieceTypeNum[i] == 2) {
+						m_loseFlg = true;
+						m_loseEffectFlg = true;
+						m_enemyCoin += 2;
+						break;
+					}
+				}
+			}
 
-		//	//三元牌のみ
-		//	if (handPieceTypeNum[PieceTypeNo::HAKU] >= 1 &&
-		//		handPieceTypeNum[PieceTypeNo::HATU] >= 1 &&
-		//		handPieceTypeNum[PieceTypeNo::TYUN] >= 1) {
-		//		bool _flg = true;
-		//		for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
-		//			if (handPieceTypeNum[i] > 0) {
-		//				_flg = false;
-		//				break;
-		//			}
-		//		}
-		//		if (_flg) { 
-		//			m_loseFlg = true; 
-		//			m_enemyCoin += 3;
-		//		}
-		//	}
+			//三元牌のみ
+			if (handPieceTypeNum[PieceTypeNo::HAKU] >= 1 &&
+				handPieceTypeNum[PieceTypeNo::HATU] >= 1 &&
+				handPieceTypeNum[PieceTypeNo::TYUN] >= 1) {
+				bool _flg = true;
+				for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
+					if (handPieceTypeNum[i] > 0) {
+						_flg = false;
+						break;
+					}
+				}
+				if (_flg) { 
+					m_loseFlg = true; 
+					m_loseEffectFlg = true;
+					m_enemyCoin += 3;
+				}
+			}
 
-		//	//勝勝勝
-		//	if (handPieceTypeNum[PieceTypeNo::WIN] == 3) {
-		//		for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
-		//			if (handPieceTypeNum[i] == 2) {
-		//				m_loseFlg = true;
-		//				m_enemyCoin += 2;
-		//				break;
-		//			}
-		//		}
-		//	}
+			//勝勝勝
+			if (handPieceTypeNum[PieceTypeNo::WIN] == 3) {
+				for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
+					if (handPieceTypeNum[i] == 2) {
+						m_loseFlg = true;
+						m_loseEffectFlg = true;
+						m_enemyCoin += 2;
+						break;
+					}
+				}
+			}
 
-		//	//損損損
-		//	if (handPieceTypeNum[PieceTypeNo::SON] == 3) {
-		//		for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
-		//			if (handPieceTypeNum[i] == 2) {
-		//				m_loseFlg = true;
-		//				m_enemyCoin += 1;
-		//				m_playerCoin -= 1;
-		//				break;
-		//			}
-		//		}
-		//	}
+			//損損損
+			if (handPieceTypeNum[PieceTypeNo::SON] == 3) {
+				for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
+					if (handPieceTypeNum[i] == 2) {
+						m_loseFlg = true;
+						m_loseEffectFlg = true;
+						m_enemyCoin += 1;
+						m_playerCoin -= 1;
+						break;
+					}
+				}
+			}
 
-		//	//東西南北　free
-		//	if (handPieceTypeNum[PieceTypeNo::EAST] >= 1 &&
-		//		handPieceTypeNum[PieceTypeNo::WEST] >= 1 &&
-		//		handPieceTypeNum[PieceTypeNo::SOUTH] >= 1 &&
-		//		handPieceTypeNum[PieceTypeNo::NORTH] >= 1) {
-		//		m_loseFlg = true;
-		//		m_enemyCoin += 5;
-		//	}
+			//東西南北　free
+			if (handPieceTypeNum[PieceTypeNo::EAST] >= 1 &&
+				handPieceTypeNum[PieceTypeNo::WEST] >= 1 &&
+				handPieceTypeNum[PieceTypeNo::SOUTH] >= 1 &&
+				handPieceTypeNum[PieceTypeNo::NORTH] >= 1) {
+				m_loseFlg = true;
+				m_loseEffectFlg = true;
+				m_enemyCoin += 5;
+			}
 
-		//	//爆爆爆
-		//	if (handPieceTypeNum[PieceTypeNo::BOMB] == 3) {
-		//		//勝勝
-		//		if (handPieceTypeNum[PieceTypeNo::WIN] == 2) {
-		//			m_loseFlg = true;
-		//			m_enemyCoin += 99;
-		//			m_nowWave = 3;
+			//爆爆爆
+			if (handPieceTypeNum[PieceTypeNo::BOMB] == 3) {
+				//勝勝
+				if (handPieceTypeNum[PieceTypeNo::WIN] == 2) {
+					m_loseFlg = true;
+					m_loseEffectFlg = true;
+					m_enemyCoin += 99;
+					m_nowWave = 3;
 
-		//		}
-		//		//発発
-		//		else if (handPieceTypeNum[PieceTypeNo::HATU] == 2) {
-		//			m_loseFlg = true;
+				}
+				//発発
+				else if (handPieceTypeNum[PieceTypeNo::HATU] == 2) {
+					m_loseFlg = true;
 
-		//		}
-		//		else {
-		//			for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
-		//				if (handPieceTypeNum[i] == 2) {
-		//					m_winFlg = true;
-		//					m_playerCoin += 2;
-		//					break;
-		//				}
-		//			}
-		//		}
-		//	}
-		//}
+				}
+				else {
+					for (int i = 0; i < PieceTypeNo::PieceTypeNoNum; i++) {
+						if (handPieceTypeNum[i] == 2) {
+							m_loseFlg = true;
+							m_loseEffectFlg = true;
+							m_playerCoin += 2;
+							break;
+						}
+					}
+				}
+			}
+		}
 
-		//if (m_loseFlg) {
-		//	m_waveInitFlg = true;
-		//	m_nowWave++;
-		//}
-		//else{
-		//	bool changeFlg = false;
-		//	for (int typeNo = PieceTypeNo::PieceTypeNoNum - 1;
-		//		typeNo > PieceTypeNo::NullType; typeNo--) {
-		//		if (handPieceTypeNum[typeNo] == 1) {
-		//			for (int i = 0; i < HandPieceNum; i++) {
-		//				if (m_piece[m_enemyHandPiece[i]].lock()->GetPieceType() == typeNo) {
-		//					m_piece[m_enemyHandPiece[i]].lock()->SetHandPieceFlg(false);
-		//					m_piece[m_enemyHandPiece[i]].lock()->SetPlayerHandFlg(false);
+		if (m_loseFlg) {
+			if (m_loseEffectFlg)
+			{
+				m_loseEffectFrame++;
 
-		//					if (m_piece[m_enemyHandPiece[i]].lock()->GetPieceType() == PieceTypeNo::STONE) {
-		//						m_piece[m_enemyHandPiece[i]].lock()->SetEffectFlg(true);
-		//					}
-		//					else m_piece[m_enemyHandPiece[i]].lock()->SetDestinationMountPos();
+				if (m_loseEffectFrame < 5)
+				{
+					KdEffekseerManager::GetInstance().Play(
+						"Spark.efkefc",
+						m_loseEffectPos,
+						5.0f,
+						0.3f,
+						false);
+				}
+				if (m_loseEffectFrame > 15)
+				{
+					KdEffekseerManager::GetInstance().Play(
+						"Gold.efkefc",
+						m_winEffectPos,
+						3.0f,
+						0.3f,
+						false);
+				}
+				if (m_loseEffectFrame > 25)
+				{
+					m_loseEffectFlg = false;
+					m_loseEffectFrame = 0;
+				}
+			}
 
-		//					changeFlg = true;
-		//					break;
-		//				}
-		//			}
-		//		}
+			m_waveInitFlg = true;
+			m_nowWave++;
+		}
+		else{
+			bool changeFlg = false;
+			for (int typeNo = PieceTypeNo::PieceTypeNoNum - 1;
+				typeNo > PieceTypeNo::NullType; typeNo--) {
+				if (handPieceTypeNum[typeNo] == 1) {
+					for (int i = 0; i < HandPieceNum; i++) {
+						if (m_piece[m_enemyHandPiece[i]].lock()->GetPieceType() == typeNo) {
+							m_piece[m_enemyHandPiece[i]].lock()->SetHandPieceFlg(false);
+							m_piece[m_enemyHandPiece[i]].lock()->SetPlayerHandFlg(false);
 
-		//		if (changeFlg) {
-		//			break;
-		//		}
-		//	}
+							if (m_piece[m_enemyHandPiece[i]].lock()->GetPieceType() == PieceTypeNo::STONE) {
+								m_piece[m_enemyHandPiece[i]].lock()->SetEffectFlg(true);
+							}
+							else m_piece[m_enemyHandPiece[i]].lock()->SetDestinationMountPos();
 
-		//	if (m_piece[m_enemyHandPiece[4]]
-		//		.lock()->GetHandPieceFlg()) {
-		//		for (int i = 0; i < HandPieceNum - 1; i++) {
-		//			if (!m_piece[m_enemyHandPiece[i]]
-		//				.lock()->GetHandPieceFlg()) {
-		//				m_enemyHandPiece[i] = m_enemyHandPiece[4];
-		//				break;
-		//			}
-		//		}
-		//	}
+							changeFlg = true;
+							break;
+						}
+					}
+				}
 
-		//	for (int i = 0; i < HandPieceNum - 1; i++) {
-		//		piece = m_piece[m_enemyHandPiece[i]].lock();
-		//		piece->SetDestinationPos(Math::Vector3(-15 + (i * 10), 90, 70));
-		//	}
+				if (changeFlg) {
+					break;
+				}
+			}
 
-		//	m_turnEndFlg = true;
-		//}
+			if (m_piece[m_enemyHandPiece[4]]
+				.lock()->GetHandPieceFlg()) {
+				for (int i = 0; i < HandPieceNum - 1; i++) {
+					if (!m_piece[m_enemyHandPiece[i]]
+						.lock()->GetHandPieceFlg()) {
+						m_enemyHandPiece[i] = m_enemyHandPiece[4];
+						break;
+					}
+				}
+			}
+
+			for (int i = 0; i < HandPieceNum - 1; i++) {
+				piece = m_piece[m_enemyHandPiece[i]].lock();
+				piece->SetDestinationPos(Math::Vector3(-15 + (i * 10), 90, 70));
+			}
+
+			m_turnEndFlg = true;
+		}
 
 		m_turnEndFlg = true;
 
@@ -607,6 +684,13 @@ void PieceManager::Update()
 				//ここ勝利サウンド
 				KdAudioManager::Instance().Play("Asset/Data/Sound/Burning.wav", true);
 				KdAudioManager::Instance().Play("Asset/Data/Sound/VictoryLaugh.wav", false);
+
+				KdEffekseerManager::GetInstance().Play(
+					"Fire02.efk",
+					m_fireEffectPos,
+					10.0f,
+					0.1f,
+					false);
 			}
 		}
 		else if((m_playerCoin < m_enemyCoin) && !m_playerLose){
