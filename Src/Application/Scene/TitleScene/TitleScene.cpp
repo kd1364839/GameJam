@@ -1,11 +1,11 @@
 ﻿#include "TitleScene.h"
 #include "../SceneManager.h"
 #include"../../GameObject/Desk/Desk.h"
+#include "../../GameObject/Title/Title.h"
 
 void TitleScene::Event()
 {
-	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-	{
+	if (m_title->GameStart()) {
 		SceneManager::Instance().SetNextScene
 		(
 			SceneManager::SceneType::Game
@@ -47,4 +47,8 @@ void TitleScene::Init()
 	desk = std::make_shared<Desk>();
 	desk->Init();
 	AddObject(desk);
+
+	m_title = std::make_shared<Title>();
+	m_title->Init();
+	AddObject(m_title);
 }

@@ -15,6 +15,7 @@
 #include"../../GameObject/Piece/Son/Son.h"
 #include"../../GameObject/Piece/Stone/Stone.h"
 #include"../../GameObject/Piece/Win/Win.h"
+#include "../../GameObject/Role/Role.h"
 
 void GameScene::Event()
 {
@@ -157,6 +158,10 @@ void GameScene::Init()
 		AddObject(win);
 		m_pieceManager->AddPiece(win);
 	}
+
+	auto role = std::make_shared<Role>();
+	role->Init();
+	AddObject(role);
 
 	m_pieceManager->Init();
 	m_pieceManager->SetCamera(m_camera);

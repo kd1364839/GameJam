@@ -250,7 +250,7 @@ void PieceManager::Update()
 					if (!once) {
 						piece->SetEffectFlg(true);
 					}
-				}
+				} 
 				once = true;
 			//}
 
@@ -632,7 +632,7 @@ void PieceManager::Update()
 	KdDebugGUI::Instance().AddLog("\n");*/
 
 	// 	KdDebugGUI::Instance().AddLog("%d\n", m_nowWave);
-	KdDebugGUI::Instance().AddLog("%d\n", m_timer);
+	//KdDebugGUI::Instance().AddLog("%d\n", m_timer);
 
 	if (GetAsyncKeyState('K') & 0x8000) {
 		m_playerCoin = 2;
@@ -759,11 +759,11 @@ void PieceManager::BigExplosion()
 
 		if (m_deskExplosionTimer >= endFrame)
 		{
-			m_deskExplosionActive = false;
 			m_deskExplosionTimer = 0;
 			m_explosionSequence.clear();
 			m_explosionSequence.shrink_to_fit();
 			Once = false;
+			m_deskExplosionActive = false;
 			m_nowWave = 3;
 			m_playerCoin = 20;
 		}

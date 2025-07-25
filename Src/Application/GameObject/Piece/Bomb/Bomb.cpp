@@ -32,13 +32,11 @@ void Bomb::Update()
 				1.0f,
 				0.3f,
 				false);
-			m_effectFlg = false;
 
 			KdAudioManager::Instance().Play("Asset/Data/Sound/Explosion.wav", false);//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+			m_effectFlg = false;
 	}
-
-	
 
 	BasePiece::Update();
 }
